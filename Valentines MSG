@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kagiso, Will You Be My Valentine? ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Confetti library -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    background: white;
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    position: relative;
+    z-index: 2;
+}
+
+h1 {
+    color: #e63946;
+}
+
+p {
+    font-size: 18px;
+}
+
+.buttons {
+    margin-top: 30px;
+    position: relative;
+    height: 120px;
+}
+
+button {
+    font-size: 18px;
+    padding: 14px 28px;
+    border-radius: 40px;
+    border: none;
+    cursor: pointer;
+}
+
+#yesBtn {
+    background: #e63946;
+    color: white;
+}
+
+#noBtn {
+    position: absolute;
+    background: #adb5bd;
+    color: white;
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    bottom: -20px;
+    color: rgba(230,57,70,0.75);
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Music (hidden) -->
+<iframe id="music" width="0" height="0"
+src="https://www.youtube.com/embed/4lC6HcJXHnI?enablejsapi=1&loop=1"
+allow="autoplay">
+</iframe>
+
+<div class="card" id="card">
+    <h1>Hey Kagiso 💖</h1>
+    <p>
+        Roses are red 🌹<br>
+        Valentines are sweet 🍫<br><br>
+        But nothing compares<br>
+        to you being <em>my</em> Valentine 😌
+    </p>
+
+    <p><strong>Will you be my Valentine?</strong></p>
+
+    <div class="buttons">
+        <button id="yesBtn">Yes 💘</button>
+        <button id="noBtn">No 🙈</button>
+    </div>
+</div>
+
+<!-- Hidden form for email notification -->
+<form id="yesForm" action="https://formspree.io/f/mreazkyo" method="POST" style="display:none;">
+    <input type="hidden" name="message" value="💖 Kagiso clicked YES to be your Valentine!">
+</form>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const card = document.getElementById("card");
+const form = document.getElementById("yesForm");
+
+/* Make NO impossible 😄 */
+function moveNo() {
+    const x = Math.random() * 280;
+    const y = Math.random() * 80;
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+/* YES button logic */
+yesBtn.addEventListener("click", () => {
+    // Send email confirmation
+    form.submit();
+
+    // CONFETTI EXPLOSION 🎉
+    confetti({
+        particleCount: 180,
+        spread: 120,
+        origin: { y: 0.6 }
+    });
+
+    setTimeout(() => {
+        confetti({
+            particleCount: 120,
+            spread: 160,
+            origin: { y: 0.5 }
+        });
+    }, 300);
+
+    // Update card content
+    card.innerHTML = `
+        <h1>💘 SHE SAID YES 💘</h1>
+        <p style="font-size:20px;">
+            Best decision ever 😌❤️<br><br>
+            Happy Valentine’s Day, Kagiso 💕
+        </p>
+    `;
+
+    // Start background music
+    startMusic();
+});
+
+/* Floating hearts generator */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 7000);
+}
+
+setInterval(createHeart, 400);
+
+/* Start music after interaction */
+function startMusic() {
+    const iframe = document.getElementById("music");
+    iframe.src += "&autoplay=1";
+}
+</script>
+
+</body>
+</html>
